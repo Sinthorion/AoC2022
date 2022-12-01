@@ -9,10 +9,12 @@ public class Main {
 
   static void run(int day, DaySolver solver) {
     try(
-      InputStream input = new URL(
+      InputStream inputStream = new URL(
           String.format("https://adventofcode.com/2022/day/%d/input", day)
       ).openStream()
     ) {
+      String input = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
       String resultA = solver.solveA(input);
       if (resultA != null) { // null signals not implemented
         log("Day %d Part A", day);
