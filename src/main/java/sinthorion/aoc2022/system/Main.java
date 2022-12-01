@@ -1,5 +1,7 @@
 package sinthorion.aoc2022.system;
 
+import static org.reflections.scanners.Scanners.TypesAnnotated;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +11,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Scanner;
+import org.reflections.Reflections;
 
 public class Main {
 
@@ -43,6 +46,32 @@ public class Main {
     }
   }
 
+  static DaySolver getSolver(int forDay) {
+    Reflections reflections = new Reflections("sinthorion.aoc2022");
+
+    for (Class<?> klazz : reflections.get(TypesAnnotated.with(Day.class).asClass())) {
+      Day annotation = klazz.getAnnotation(Day.class);
+      int annotatedDay = annotation.day();
+      if (annotatedDay < 1 || annotatedDay > 25) {
+        throw new IllegalArgumentException("'day' must be 1-25 in @Day at " + klazz.getCanonicalName());
+      }
+      if (!DaySolver.class.isAssignableFrom(klazz)) {
+        throw new RuntimeException("Annotation @Day must only be used for DaySolvers");
+      }
+
+      if (annotatedDay == forDay) {
+        try {
+          return (DaySolver)klazz.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    }
+
+    return null;
+  }
+
   static void log(String s, Object ... args) {
     System.out.printf(s, args);
     System.out.println();
@@ -68,24 +97,13 @@ public class Main {
     String userInput = sysInput.nextLine();
     int day = userInput.isBlank() ? dayDefault : Integer.parseInt(userInput);
     if (day <= 0 || day > 25) {
-      new IllegalArgumentException("Input must be 1-25").printStackTrace();
-      return;
+      throw new IllegalArgumentException("Input must be 1-25");
     }
 
-    try {
-      Class<?> klass = Class.forName("sinthorion.aoc2022.day.Day" + day);
-      if (!DaySolver.class.isAssignableFrom(klass)) {
-        System.err.println("Day" + day + " does not implement DaySolver");
-        return;
-      }
-      DaySolver solver = (DaySolver)klass.getConstructor().newInstance();
-      run(day, solver, cookie);
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException("Day " + day + " has not been implemented yet or could not be found", e);
-    } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
-             NoSuchMethodException e) {
-      System.err.println("Failed to instantiate Day" + day + " solver");
-      throw new RuntimeException(e);
+    DaySolver solver = getSolver(day);
+    if (solver == null) {
+      throw new RuntimeException("Day " + day + " has not been implemented yet or could not be found");
     }
+    run(day, solver, cookie);
   }
 }

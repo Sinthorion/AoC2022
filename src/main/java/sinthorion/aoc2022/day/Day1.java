@@ -2,9 +2,10 @@ package sinthorion.aoc2022.day;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import sinthorion.aoc2022.system.Day;
 import sinthorion.aoc2022.system.DaySolver;
 
-@SuppressWarnings("unused")
+@Day(day = 1)
 public class Day1 implements DaySolver {
 
   @Override
