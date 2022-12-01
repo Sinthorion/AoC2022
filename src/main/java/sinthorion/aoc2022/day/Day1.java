@@ -1,4 +1,4 @@
-package sinthorion.aoc2022.days;
+package sinthorion.aoc2022.day;
 
 import sinthorion.aoc2022.system.DaySolver;
 
