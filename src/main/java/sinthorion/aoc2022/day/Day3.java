@@ -63,19 +63,17 @@ public class Day3 implements DaySolver {
   }
 
   @Override
-  public String solveA(String input) {
-    int sum = input.lines()
+  public Object solveA(String input) {
+    return input.lines()
         .map(line -> new Backpack(line.substring(0, line.length() / 2),
             line.substring(line.length() / 2)))
         .map(Backpack::intersection).flatMap(Set::stream).mapToInt(Day3::priority).sum();
-    return String.valueOf(sum);
   }
 
   @Override
-  public String solveB(String input) {
-    int sum = input.lines().collect(TakeThree.collector(Group::new)).stream().map(Group::badge)
+  public Object solveB(String input) {
+    return input.lines().collect(TakeThree.collector(Group::new)).stream().map(Group::badge)
         .mapToInt(Day3::priority).sum();
-    return String.valueOf(sum);
   }
 
   @FunctionalInterface

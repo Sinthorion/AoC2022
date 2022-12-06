@@ -27,14 +27,14 @@ public class Main {
     try(InputStream inputStream = openConnection(day, cookie)) {
       String input = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
 
-      String resultA = solver.solveA(input);
+      String resultA = String.valueOf(solver.solveA(input));
       if (resultA != null) { // null signals not implemented
         log("Day %d Part A", day);
         log("Result: %s", resultA);
       } else {
         log("Part A not implemented");
       }
-      String resultB = solver.solveB(input);
+      String resultB = String.valueOf(solver.solveB(input));
       if (resultB != null) { // null signals not implemented
         log("Day %d Part B", day);
         log("Result: %s", resultB);

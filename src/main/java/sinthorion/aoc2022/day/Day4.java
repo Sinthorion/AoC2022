@@ -54,14 +54,12 @@ public class Day4 implements DaySolver {
   }
 
   @Override
-  public String solveA(String input) {
-    long count = input.lines().map(Pair::parse).filter(pair -> pair.first.isSubsetOrSuperset(pair.second)).count();
-    return String.valueOf(count);
+  public Object solveA(String input) {
+    return input.lines().map(Pair::parse).filter(pair -> pair.first.isSubsetOrSuperset(pair.second)).count();
   }
 
   @Override
-  public String solveB(String input) {
-    long count = input.lines().map(Pair::parse).filter(pair -> pair.first.overlaps(pair.second)).count();
-    return String.valueOf(count);
+  public Object solveB(String input) {
+    return input.lines().map(Pair::parse).filter(pair -> pair.first.overlaps(pair.second)).count();
   }
 }

@@ -9,15 +9,15 @@ import sinthorion.aoc2022.system.DaySolver;
 public class Day1 implements DaySolver {
 
   @Override
-  public String solveA(String input) {
-    return String.valueOf(Arrays.stream(input.split("\\n\\n")).mapToInt(section -> section.lines()
-        .mapToInt(Integer::parseInt).sum()).max().orElseThrow());
+  public Object solveA(String input) {
+    return Arrays.stream(input.split("\\n\\n")).mapToInt(section -> section.lines()
+        .mapToInt(Integer::parseInt).sum()).max().orElseThrow();
   }
 
   @Override
-  public String solveB(String input) {
-    return String.valueOf(Arrays.stream(input.split("\\n\\n")).mapToInt(section -> section.lines()
+  public Object solveB(String input) {
+    return Arrays.stream(input.split("\\n\\n")).mapToInt(section -> section.lines()
         .mapToInt(Integer::parseInt).sum()).boxed().sorted(Comparator.reverseOrder()).mapToInt(i->i)
-        .limit(3).sum());
+        .limit(3).sum();
   }
 }

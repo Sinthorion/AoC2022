@@ -70,7 +70,7 @@ public class Day2 implements DaySolver {
   }
 
   @Override
-  public String solveA(String input) {
+  public Object solveA(String input) {
     int result = input.lines().mapToInt(line -> {
       Move first = Move.parse(line.charAt(0));
       Move second = Move.parse(line.charAt(2));
@@ -80,13 +80,12 @@ public class Day2 implements DaySolver {
   }
 
   @Override
-  public String solveB(String input) {
-    int res = input.lines().mapToInt(line -> {
+  public Object solveB(String input) {
+    return input.lines().mapToInt(line -> {
       Move first = Move.parse(line.charAt(0));
       Result result = Result.parse(line.charAt(2));
       Move second = first.needed(result);
       return first.score(second);
     }).sum();
-    return String.valueOf(res);
   }
 }
